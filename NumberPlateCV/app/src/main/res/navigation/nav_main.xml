@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_main"
+    app:startDestination="@id/cameraFragment">
+
+    <fragment
+        android:id="@+id/cameraFragment"
+        android:name="com.zhandos.numberplatecv.camera.CameraFragment"
+        android:label="CameraFragment">
+        <action
+            android:id="@+id/action_cameraFragment_to_numberPlateFragment"
+            app:destination="@id/numberPlateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/numberPlateFragment"
+        android:name="com.zhandos.numberplatecv.list.NumberPlateFragment"
+        android:label="NumberPlateFragment"
+        tools:layout="@layout/fragment_number_plate">
+
+        <argument
+            android:name="location"
+            app:argType="android.net.Uri"
+            app:nullable="true" />
+    </fragment>
+</navigation>
