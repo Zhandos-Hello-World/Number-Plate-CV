@@ -1,4 +1,4 @@
-# Number Plate recognition(Computer vision)
+# Number Plate recognition(Computer vision) Android application
 For Abylay Omar
 
 ## Teammate: :shipit:
