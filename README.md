@@ -1,5 +1,15 @@
-# Number-Plate-CV
+# Number Plate recognition(Computer vision)
 For Abylay Omar
 
-`#ffffff`Teammate:
-Turdaly Aruzhan
+## Teammate:
+> Turdaly Aruzhan
+> 
+> Nayashova Ayala
+> 
+> Baiguziyev Iliyas
+> 
+> Yerkinova Aksaule
+> 
+> Baimurat Zhandos
+
+
