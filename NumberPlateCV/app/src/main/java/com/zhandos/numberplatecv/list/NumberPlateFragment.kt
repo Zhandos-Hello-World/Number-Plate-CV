@@ -1,9 +1,12 @@
 package com.zhandos.numberplatecv.list
 
+import android.graphics.Bitmap
 import android.graphics.ImageDecoder
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,26 +45,24 @@ class NumberPlateFragment : Fragment() {
                 ) { decoder, _, _ -> decoder.isMutableRequired = true }
             }
 
+            val type = CvType.CV_8UC1
             //IMAGE
-            val image = Mat()
+            val image = Mat(bitmap.height, bitmap.width, type)
             Utils.bitmapToMat(bitmap, image, true)
 
             //GRAY image
-            val grayImage = Mat(bitmap.height, bitmap.width, CvType.CV_8UC1)
+            val grayImage = Mat(bitmap.height, bitmap.width, type)
             Imgproc.cvtColor(image, grayImage, Imgproc.COLOR_BGR2GRAY)
 
-            val smoothedImage = Mat(bitmap.height, bitmap.width, CvType.CV_8UC1)
-            Imgproc.bilateralFilter(grayImage, smoothedImage, 11, 5077.0, 5077.0)
-
+            val smoothedImage = Mat(bitmap.height, bitmap.width, type)
+            Imgproc.bilateralFilter(grayImage, smoothedImage, 11, 3077.0, 3077.0)
 
             //edged
-            val edged = Mat(bitmap.height, bitmap.width, CvType.CV_8UC1)
-            Imgproc.Canny(smoothedImage, edged, 30.0, 200.0, 3)
-
-            Utils.matToBitmap(edged, bitmap)
+            val edged = Mat(bitmap.height, bitmap.width, type)
+            Imgproc.Canny(smoothedImage, edged, 30.0, 200.0, 7)
 
             //added contours
-            val contourImage = Mat(bitmap.height, bitmap.width, CvType.CV_8UC1)
+            val contourImage = Mat(bitmap.height, bitmap.width, type)
             var contours: List<MatOfPoint> = ArrayList()
             Imgproc.findContours(
                 edged.clone(),
@@ -83,7 +84,6 @@ class NumberPlateFragment : Fragment() {
 
                 if (approx.toList().size == 4) {
                     val rect = Imgproc.boundingRect(contour)
-                    
                     Imgproc.drawContours(
                         image,
                         listOf(contour),
@@ -95,8 +95,6 @@ class NumberPlateFragment : Fragment() {
                 }
                 c.release()
             }
-
-
 
             Utils.matToBitmap(image, bitmap)
             binding.numberPlate.load(bitmap)
